@@ -37,6 +37,7 @@ export default function LoginPage() {
     sessionStorage.setItem("token", data.token)
     console.log(data.user)
     // ✅ redirect to home (or wherever)
+    sessionStorage.setItem("triggerReload","true")
     router.push("/")
   } catch (err: any) {
     console.error(err)

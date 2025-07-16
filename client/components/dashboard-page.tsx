@@ -38,6 +38,12 @@ export function DashboardPage() {
       } catch (err) {
         console.error("Failed to fetch dashboard data:", err)
       }
+      const shouldReload = sessionStorage.getItem("triggerReload")
+
+      if (shouldReload) {
+        sessionStorage.removeItem("triggerReload");
+        window.location.reload()
+      }
     }
 
     fetchData()

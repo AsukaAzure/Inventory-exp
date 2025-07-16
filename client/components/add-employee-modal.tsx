@@ -42,6 +42,7 @@ export function AddEmployeeModal({ isOpen, onClose }: AddEmployeeModalProps) {
       // success, you can show a toast or clear form
       console.log("User created:", data)
       handleClose()
+      window.location.reload();
     } catch (err: any) {
       console.error(err)
       setError(err.message)
