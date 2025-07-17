@@ -6,7 +6,8 @@ const {
   getItemById,
   updateItem,
   deleteItem,
-  getAllItems
+  getAllItems,
+  getLowStockItems
 } = require('../controllers/itemController');
 
 // @route   GET /api/items
@@ -38,5 +39,7 @@ router.put('/section/:sectionId/:itemId', updateItem);
 // @desc    Delete item from section
 // @access  Public
 router.delete('/section/:sectionId/:itemId', deleteItem);
+
+router.get('/low-stock', getLowStockItems);
 
 module.exports = router;

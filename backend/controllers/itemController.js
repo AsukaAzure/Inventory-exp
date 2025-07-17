@@ -159,11 +159,36 @@ const getAllItems = async (req, res) => {
   }
 };
 
+// Get low-stock items (availableCount < 10)
+const getLowStockItems = async (req, res) => {
+  try {
+    const sections = await Section.find();
+    let lowStockItems = [];
+
+    sections.forEach(section => {
+      const items = section.itemsArray
+        .filter(item => item.availableCount < 10)
+        .map(item => ({
+          ...item.toObject(),
+          sectionName: section.sectionname,
+          sectionId: section._id
+        }));
+      lowStockItems = lowStockItems.concat(items);
+    });
+
+    res.json(lowStockItems);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 module.exports = {
   addItemToSection,
   getItemsFromSection,
   getItemById,
   updateItem,
   deleteItem,
-  getAllItems
+  getAllItems,
+  getLowStockItems
 };

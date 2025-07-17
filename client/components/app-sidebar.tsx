@@ -1,6 +1,7 @@
 "use client"
 
 import { Users, FileText, Package, Home, X } from "lucide-react"
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button"
 import {
   Sidebar,
@@ -64,6 +65,14 @@ export function AppSidebar({ currentPage, onNavigate }: AppSidebarProps) {
     }
   }
 
+  const router = useRouter();
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+    localStorage.removeItem("currentPage");
+    router.push("/loginpage");
+  };
+
   return (
     <Sidebar className="bg-slate-800 border-slate-700">
       <SidebarHeader className="p-4 flex flex-row items-center justify-between">
@@ -98,6 +107,12 @@ export function AppSidebar({ currentPage, onNavigate }: AppSidebarProps) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <Button
+            className="bg-red-500 rounded-none hover:bg-red-700 text-white"
+            onClick={handleLogout}
+          >
+            Log Out
+          </Button>
     </Sidebar>
   )
 }
