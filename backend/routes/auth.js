@@ -77,7 +77,7 @@ router.post("/signin", async (req, res) => {
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid password" });
     }
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1d" });
