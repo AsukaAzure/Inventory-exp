@@ -248,13 +248,13 @@ const deleteItem = (itemId: string) => {
                     </>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button
+                    {/* <Button
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8 text-slate-400 hover:text-white hover:bg-slate-700"
                     >
                       <Info className="h-4 w-4" />
-                    </Button>
+                    </Button> */}
                     <Button
                       variant="ghost"
                       size="icon"
