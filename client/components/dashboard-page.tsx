@@ -17,6 +17,7 @@ export function DashboardPage() {
     employees: 0,
     logs: 0,
   });
+  const [loading, setLoading] = useState(true);
 
   const [lowStockItems, setLowStockItems] = useState<any[]>([]);
   const [showWarningBox, setShowWarningBox] = useState(false);
@@ -44,12 +45,8 @@ export function DashboardPage() {
         setLowStockItems(lowStockRes.data || []);
       } catch (err) {
         console.error("Failed to fetch dashboard data:", err);
-      }
-      const shouldReload = sessionStorage.getItem("triggerReload");
-
-      if (shouldReload) {
-        sessionStorage.removeItem("triggerReload");
-        window.location.reload();
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -115,7 +112,7 @@ export function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">
-              {counts.sections}
+              {loading ? "..." : counts.sections}
             </div>
             <p className="text-xs text-slate-400">Active inventory sections</p>
           </CardContent>
@@ -130,7 +127,9 @@ export function DashboardPage() {
             <TrendingUp className="h-4 w-4 text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{counts.items}</div>
+            <div className="text-2xl font-bold text-white">
+              {loading ? "..." : counts.items}
+            </div>
             <p className="text-xs text-slate-400">Items across all sections</p>
           </CardContent>
         </Card>
@@ -145,7 +144,7 @@ export function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">
-              {counts.employees}
+              {loading ? "..." : counts.employees}
             </div>
             <p className="text-xs text-slate-400">Active team members</p>
           </CardContent>
@@ -160,7 +159,9 @@ export function DashboardPage() {
             <Activity className="h-4 w-4 text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{counts.logs}</div>
+            <div className="text-2xl font-bold text-white">
+              {loading ? "..." : counts.logs}
+            </div>
             <p className="text-xs text-slate-400">Activity records</p>
           </CardContent>
         </Card>

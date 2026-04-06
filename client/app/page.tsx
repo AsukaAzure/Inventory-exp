@@ -8,6 +8,7 @@ import { DashboardPage } from "@/components/dashboard-page"
 import { EmployeesPage } from "@/components/employees-page"
 import { LogsPage } from "@/components/logs-page"
 import SectionsPage from "@/components/sections-page"
+import { PasswordRequestsPage } from "@/components/password-requests-page"
 
 export default function InventoryDashboard() {
   const router = useRouter()
@@ -37,6 +38,8 @@ export default function InventoryDashboard() {
         return <EmployeesPage />
       case "logs":
         return <LogsPage />
+      case "password-requests":
+        return <PasswordRequestsPage />
       default:
         return <DashboardPage />
     }

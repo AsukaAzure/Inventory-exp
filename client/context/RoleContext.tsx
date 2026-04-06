@@ -14,23 +14,52 @@ const RoleContext = createContext<RoleContextType>({
   loading: true,
 })
 
+const getRoleFromSession = () => {
+  const userString = sessionStorage.getItem("user")
+  if (!userString) return "user"
+
+  try {
+    const user = JSON.parse(userString)
+    if (user && user.role) return user.role
+  } catch (err) {
+    console.error("Failed to parse user from sessionStorage:", err)
+  }
+
+  return "user"
+}
+
 export const RoleProvider = ({ children }: { children: React.ReactNode }) => {
-  const [role, setRoleState] = useState("user")
+  const [role, setRoleState] = useState(() => {
+    if (typeof window === "undefined") return "user"
+    return getRoleFromSession()
+  })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const userString = sessionStorage.getItem("user")
-    if (userString) {
-      try {
-        const user = JSON.parse(userString)
-        if (user && user.role) {
-          setRoleState(user.role)
-        }
-      } catch (err) {
-        console.error("Failed to parse user from sessionStorage:", err)
+    const updateRole = () => {
+      setRoleState(getRoleFromSession())
+      setLoading(false)
+    }
+
+    updateRole()
+
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key === "user") {
+        updateRole()
       }
     }
-    setLoading(false)
+
+    const handleUserUpdated = () => {
+      updateRole()
+    }
+
+    window.addEventListener("storage", handleStorage)
+    window.addEventListener("userUpdated", handleUserUpdated)
+
+    return () => {
+      window.removeEventListener("storage", handleStorage)
+      window.removeEventListener("userUpdated", handleUserUpdated)
+    }
   }, [])
 
   const setRole = (newRole: string) => {

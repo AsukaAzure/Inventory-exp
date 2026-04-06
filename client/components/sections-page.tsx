@@ -174,16 +174,16 @@ export default function SectionsPage() {
             </CardHeader>
           </Card>
 
-          <Card className="bg-slate-800 border-slate-700">
+          {/* <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-2">
               <CardDescription className="text-slate-400">Recent Updates</CardDescription>
               <CardTitle className="text-4xl font-bold">Active</CardTitle>
             </CardHeader>
-          </Card>
+          </Card> */}
         </div>
 
         {/* Recent Sections */}
-        <div className="mb-8">
+        {/* <div className="mb-8">
           <h2 className="text-2xl font-bold mb-4">Recent Sections</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[...sections]
@@ -217,7 +217,7 @@ export default function SectionsPage() {
                 </Card>
               ))}
           </div>
-        </div>
+        </div> */}
 
         {/* All Sections */}
         <div>

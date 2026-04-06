@@ -44,9 +44,9 @@ export default function LoginPage() {
       // ✅ Store user and token in sessionStorage
       sessionStorage.setItem("user", JSON.stringify(data.user));
       sessionStorage.setItem("token", data.token);
+      window.dispatchEvent(new Event("userUpdated"));
       console.log(data.user);
-      // ✅ redirect to home (or wherever)
-      sessionStorage.setItem("triggerReload", "true");
+      // ✅ redirect to home
       router.push("/");
     } catch (err: any) {
       console.error(err);
@@ -72,15 +72,15 @@ export default function LoginPage() {
 
     setForgotLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/auth/changepassword", {
+      const res = await fetch("http://localhost:5000/api/auth/request-password-change", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail.trim(), newPassword }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to change password");
+      if (!res.ok) throw new Error(data.message || "Failed to submit password request");
       setForgotSuccess(
-        "Password updated. You can now login with the new password."
+        "Password change request submitted. An admin will review and approve it."
       );
       setShowForgot(false);
       setForgotEmail("");

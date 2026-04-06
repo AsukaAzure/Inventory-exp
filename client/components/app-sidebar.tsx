@@ -15,6 +15,7 @@ import {
   SidebarHeader,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useRole } from "@/context/RoleContext"
 
 interface AppSidebarProps {
   currentPage: string
@@ -46,6 +47,7 @@ const menuItems = [
 
 export function AppSidebar({ currentPage, onNavigate }: AppSidebarProps) {
   const { setOpen, setOpenMobile, isMobile } = useSidebar()
+  const { role } = useRole()
 
   const handleNavigate = (page: string) => {
     onNavigate(page)
@@ -70,6 +72,7 @@ export function AppSidebar({ currentPage, onNavigate }: AppSidebarProps) {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("user");
     localStorage.removeItem("currentPage");
+    window.dispatchEvent(new Event("userUpdated"));
     router.push("/loginpage");
   };
 
@@ -103,6 +106,18 @@ export function AppSidebar({ currentPage, onNavigate }: AppSidebarProps) {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {role === "admin" && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    onClick={() => handleNavigate("password-requests")}
+                    isActive={currentPage === "password-requests"}
+                    className="text-slate-300 hover:text-white hover:bg-slate-700 data-[active=true]:bg-blue-600 data-[active=true]:text-white"
+                  >
+                    <FileText className="h-4 w-4" />
+                    <span>Password Requests</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
