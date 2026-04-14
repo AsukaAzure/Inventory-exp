@@ -43,9 +43,9 @@ export function AddEmployeeModal({ isOpen, onClose }: AddEmployeeModalProps) {
       console.log("User created:", data)
       handleClose()
       window.location.reload();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err)
-      setError(err.message)
+      setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
       setLoading(false)
     }

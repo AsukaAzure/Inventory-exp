@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import axios from "axios"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -14,6 +14,14 @@ interface RequestEntry {
   createdAt: string
 }
 
+interface RequestFromAPI {
+  _id: string;
+  user?: { username: string };
+  email: string;
+  status: string;
+  createdAt: string;
+}
+
 export function PasswordRequestsPage() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000"
   const [requests, setRequests] = useState<RequestEntry[]>([])
@@ -23,7 +31,7 @@ export function PasswordRequestsPage() {
 
   const token = typeof window !== "undefined" ? sessionStorage.getItem("token") : null
 
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     setLoading(true)
     setError("")
 
@@ -33,7 +41,7 @@ export function PasswordRequestsPage() {
           Authorization: `Bearer ${token}`,
         },
       })
-      const items = response.data.map((request: any) => ({
+      const items = response.data.map((request: RequestFromAPI) => ({
         id: String(request._id),
         username: request.user?.username || "Unknown",
         email: request.email,
@@ -53,11 +61,11 @@ export function PasswordRequestsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [baseUrl, token])
 
   useEffect(() => {
     fetchRequests()
-  }, [])
+  }, [fetchRequests])
 
   const handleRequestAction = async (requestId: string, action: "approve" | "reject") => {
     setActionLoading(requestId)

@@ -13,6 +13,13 @@ interface LogEntry {
   time: string
 }
 
+interface LogFromAPI {
+  _id: string;
+  username: string;
+  activity: string;
+  createdAt: string;
+}
+
 export function LogsPage() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
   const [logs, setLogs] = useState<LogEntry[]>([])
@@ -23,7 +30,7 @@ export function LogsPage() {
     const fetchLogs = async () => {
       try {
         const response = await axios.get(`${baseUrl}/api/logs`)
-        const mappedLogs: LogEntry[] = response.data.map((log: any) => ({
+        const mappedLogs: LogEntry[] = response.data.map((log: LogFromAPI) => ({
           id: String(log._id),
           username: log.username,
           activity: log.activity,

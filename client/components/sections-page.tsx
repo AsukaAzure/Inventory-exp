@@ -22,6 +22,14 @@ interface Section {
   createdAt: string
 }
 
+interface SectionFromAPI {
+  _id: string;
+  sectionname: string;
+  desc: string;
+  items: number;
+  createdAt: string;
+}
+
 export default function SectionsPage() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
@@ -36,7 +44,7 @@ export default function SectionsPage() {
     const fetchSections = async () => {
       try {
         const response = await axios.get(`${baseUrl}/api/sections`)
-        const mappedSections: Section[] = response.data.map((section: any) => ({
+        const mappedSections: Section[] = response.data.map((section: SectionFromAPI) => ({
           id: String(section._id),
           name: section.sectionname,
           description: section.desc,
@@ -53,7 +61,7 @@ export default function SectionsPage() {
     }
 
     fetchSections()
-  }, [])
+  }, [baseUrl])
 
   const totalItems = sections.reduce((sum, section) => sum + section.itemCount, 0)
 

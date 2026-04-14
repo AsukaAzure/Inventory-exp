@@ -5,7 +5,7 @@ import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { ArrowLeft, Plus, Minus, Info, Trash2 } from "lucide-react"
+import { ArrowLeft, Plus, Minus, Trash2 } from "lucide-react"
 import { AddItemModal } from "@/components/add-item-modal"
 
 interface Section {
@@ -20,6 +20,12 @@ interface Item {
   itemname: string
   availableCount: number
   quantity: number
+}
+
+interface ItemFromAPI {
+  itemId: string;
+  itemname: string;
+  availableCount: number;
 }
 
 interface SectionDetailProps {
@@ -48,11 +54,11 @@ export function SectionDetail({
     axios
       .get(`${baseUrl}/api/items/section/${section.id}`)
       .then((res) => {
-        const fetched = res.data.map((item: any) => ({ ...item, quantity: 1 }))
+        const fetched = res.data.map((item: ItemFromAPI) => ({ ...item, quantity: 1 }))
         setItems(fetched)
       })
       .catch((err) => console.error(err))
-  }, [section.id])
+  }, [section.id, baseUrl])
 
   const updateQuantity = (itemId: string, multiplier: 1 | -1) => {
   const updatedItems = items.map((item) => {

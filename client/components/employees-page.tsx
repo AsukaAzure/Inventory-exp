@@ -15,6 +15,13 @@ interface Employee {
   role: string
 }
 
+interface UserFromAPI {
+  _id: string;
+  username: string;
+  email: string;
+  role: string;
+}
+
 export function EmployeesPage() {
   const [employees, setEmployees] = useState<Employee[]>([])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
@@ -22,12 +29,11 @@ export function EmployeesPage() {
   const { role } = useRole()
 
   useEffect(() => {
-    console.log(role)
     const fetchEmployees = async () => {
       try {
         const res = await fetch("http://localhost:5000/api/auth/users")
-        const data = await res.json()
-        const formatted = data.map((u: any) => ({
+        const data: UserFromAPI[] = await res.json()
+        const formatted = data.map((u) => ({
           id: u._id,
           username: u.username,
           email: u.email,
@@ -44,17 +50,6 @@ export function EmployeesPage() {
     fetchEmployees()
   }, [])
 
-  const handleAddEmployee = (username: string, email: string, password: string) => {
-    const newEmployee: Employee = {
-      id: Date.now().toString(),
-      username,
-      email,
-      role
-    }
-    setEmployees([...employees, newEmployee])
-    setIsAddModalOpen(false)
-  }
-
   const handleDeleteEmployee = async (id: string) => {
     const employee = employees.find((emp) => emp.id === id)
     if (!employee) return
@@ -69,9 +64,9 @@ export function EmployeesPage() {
           throw new Error(data.message || "Failed to delete")
         }
         setEmployees(employees.filter((emp) => emp.id !== id))
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error(err)
-        alert("Error deleting user: " + err.message)
+        alert("Error deleting user: " + (err instanceof Error ? err.message : 'Unknown error'))
       }
     }
   }
@@ -125,7 +120,6 @@ export function EmployeesPage() {
         <AddEmployeeModal
           isOpen={isAddModalOpen}
           onClose={() => setIsAddModalOpen(false)}
-          onSubmit={handleAddEmployee}
         />
       )}
     </div>

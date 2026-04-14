@@ -5,12 +5,15 @@ import axios from "axios";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Package, Activity, TrendingUp } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import "../app/globals.css";
 
+interface LowStockItem {
+  itemname: string;
+  sectionName: string;
+  availableCount: number;
+}
+
 export function DashboardPage() {
-  const router = useRouter();
   const [counts, setCounts] = useState({
     sections: 0,
     items: 0,
@@ -19,7 +22,7 @@ export function DashboardPage() {
   });
   const [loading, setLoading] = useState(true);
 
-  const [lowStockItems, setLowStockItems] = useState<any[]>([]);
+  const [lowStockItems, setLowStockItems] = useState<LowStockItem[]>([]);
   const [showWarningBox, setShowWarningBox] = useState(false);
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;

@@ -48,9 +48,9 @@ export default function LoginPage() {
       console.log(data.user);
       // ✅ redirect to home
       router.push("/");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.message);
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
@@ -86,9 +86,9 @@ export default function LoginPage() {
       setForgotEmail("");
       setNewPassword("");
       setConfirmPassword("");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setForgotError(err.message || "Something went wrong");
+      setForgotError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setForgotLoading(false);
     }
