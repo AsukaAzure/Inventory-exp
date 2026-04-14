@@ -14,7 +14,7 @@ import { CreateSectionModal } from "@/components/create-section-modal"
 import { SectionDetail } from "@/components/section-detail"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 
-interface Section {
+interface SectionSummary {
   id: string
   name: string
   description: string
@@ -35,8 +35,8 @@ export default function SectionsPage() {
 
   
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-  const [selectedSection, setSelectedSection] = useState<Section | null>(null)
-  const [sections, setSections] = useState<Section[]>([])
+  const [selectedSection, setSelectedSection] = useState<SectionSummary | null>(null)
+  const [sections, setSections] = useState<SectionSummary[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
@@ -44,7 +44,7 @@ export default function SectionsPage() {
     const fetchSections = async () => {
       try {
         const response = await axios.get(`${baseUrl}/api/sections`)
-        const mappedSections: Section[] = response.data.map((section: SectionFromAPI) => ({
+        const mappedSections: SectionSummary[] = response.data.map((section: SectionFromAPI) => ({
           id: String(section._id),
           name: section.sectionname,
           description: section.desc,
@@ -75,7 +75,7 @@ export default function SectionsPage() {
 
     const newSection = response.data
 
-    const formatted: Section = {
+    const formatted: SectionSummary = {
       id: String(newSection._id),
       name: newSection.sectionname,
       description: newSection.desc,

@@ -13,6 +13,7 @@ interface Section {
   name: string
   description: string
   itemCount: number
+  createdAt: string
 }
 
 interface Item {
