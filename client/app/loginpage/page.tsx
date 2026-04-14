@@ -28,7 +28,7 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/signin", {
+      const res = await fetch("https://inventory-exp.onrender.com/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -72,7 +72,7 @@ export default function LoginPage() {
 
     setForgotLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/auth/request-password-change", {
+      const res = await fetch("https://inventory-exp.onrender.com/api/auth/request-password-change", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail.trim(), newPassword }),

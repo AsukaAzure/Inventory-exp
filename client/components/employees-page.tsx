@@ -31,7 +31,7 @@ export function EmployeesPage() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/auth/users")
+        const res = await fetch("https://inventory-exp.onrender.com/api/auth/users")
         const data: UserFromAPI[] = await res.json()
         const formatted = data.map((u) => ({
           id: u._id,
@@ -56,7 +56,7 @@ export function EmployeesPage() {
 
     if (confirm(`Are you sure you want to delete employee "${employee.username}"?`)) {
       try {
-        const res = await fetch(`http://localhost:5000/api/auth/users/${id}`, {
+        const res = await fetch(`https://inventory-exp.onrender.com/api/auth/users/${id}`, {
           method: "DELETE"
         })
         if (!res.ok) {

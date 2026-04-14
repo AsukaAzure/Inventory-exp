@@ -23,7 +23,7 @@ interface RequestFromAPI {
 }
 
 export function PasswordRequestsPage() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000"
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://inventory-exp.onrender.com"
   const [requests, setRequests] = useState<RequestEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
