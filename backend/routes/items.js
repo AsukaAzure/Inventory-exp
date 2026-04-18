@@ -9,6 +9,8 @@ const {
   getAllItems,
   getLowStockItems
 } = require('../controllers/itemController');
+const authMiddleware = require('../middleware/auth');
+const { requireNonViewer } = require('../middleware/auth');
 
 // @route   GET /api/items
 // @desc    Get all items across all sections
@@ -17,8 +19,8 @@ router.get('/', getAllItems);
 
 // @route   POST /api/items/section/:sectionId
 // @desc    Add item to section
-// @access  Public
-router.post('/section/:sectionId', addItemToSection);
+// @access  Private - Non-Viewer
+router.post('/section/:sectionId', authMiddleware, requireNonViewer, addItemToSection);
 
 // @route   GET /api/items/section/:sectionId
 // @desc    Get all items from a section
@@ -32,13 +34,13 @@ router.get('/section/:sectionId/:itemId', getItemById);
 
 // @route   PUT /api/items/section/:sectionId/:itemId
 // @desc    Update item in section
-// @access  Public
-router.put('/section/:sectionId/:itemId', updateItem);
+// @access  Private - Non-Viewer
+router.put('/section/:sectionId/:itemId', authMiddleware, requireNonViewer, updateItem);
 
 // @route   DELETE /api/items/section/:sectionId/:itemId
 // @desc    Delete item from section
-// @access  Public
-router.delete('/section/:sectionId/:itemId', deleteItem);
+// @access  Private - Non-Viewer
+router.delete('/section/:sectionId/:itemId', authMiddleware, requireNonViewer, deleteItem);
 
 router.get('/low-stock', getLowStockItems);
 

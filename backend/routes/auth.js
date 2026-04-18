@@ -79,8 +79,8 @@ router.post("/signup", async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
 
-    // Only allow "admin" or "user" roles
-    if (!["admin", "user"].includes(role)) {
+    // Only allow "viewer", "user", or "admin" roles
+    if (!["viewer", "user", "admin"].includes(role)) {
       return res.status(403).json({ message: "Unauthorized role" });
     }
 

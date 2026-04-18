@@ -13,6 +13,7 @@ import {
 import { CreateSectionModal } from "@/components/create-section-modal"
 import { SectionDetail } from "@/components/section-detail"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { useRole } from "@/context/RoleContext"
 
 interface SectionSummary {
   id: string
@@ -32,6 +33,7 @@ interface SectionFromAPI {
 
 export default function SectionsPage() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+  const { role } = useRole()
 
   
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
@@ -157,12 +159,14 @@ export default function SectionsPage() {
     <SidebarTrigger className="text-white hover:bg-slate-700" />
     <h1 className="text-xl sm:text-3xl font-bold text-white">Inventory Dashboard</h1>
   </div>
-  <Button
-    onClick={() => setIsCreateModalOpen(true)}
-    className="bg-blue-600 hover:bg-blue-700"
-  >
-    Create New Section
-  </Button>
+  {role !== "viewer" && (
+    <Button
+      onClick={() => setIsCreateModalOpen(true)}
+      className="bg-blue-600 hover:bg-blue-700"
+    >
+      Create New Section
+    </Button>
+  )}
 </div>
 
 

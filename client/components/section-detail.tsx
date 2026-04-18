@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ArrowLeft, Plus, Minus, Trash2 } from "lucide-react"
 import { AddItemModal } from "@/components/add-item-modal"
+import { useRole } from "@/context/RoleContext"
 
 interface Section {
   id: string
@@ -45,6 +46,7 @@ export function SectionDetail({
   const [items, setItems] = useState<Item[]>([])
   const [isAddItemModalOpen, setIsAddItemModalOpen] = useState(false)
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+  const { role } = useRole()
 
   // ✅ get username from session storage
   const userString = typeof window !== "undefined" ? sessionStorage.getItem("user") : null
@@ -203,19 +205,23 @@ const deleteItem = (itemId: string) => {
           </div>
 
           <div className="flex gap-3">
-            <Button
-              variant="destructive"
-              className="bg-red-600 hover:bg-red-700"
-              onClick={handleDeleteSection}
-            >
-              Delete Section
-            </Button>
-            <Button
-              className="bg-blue-600 hover:bg-blue-700"
-              onClick={() => setIsAddItemModalOpen(true)}
-            >
-              Add Item
-            </Button>
+            {role !== "viewer" && (
+              <>
+                <Button
+                  variant="destructive"
+                  className="bg-red-600 hover:bg-red-700"
+                  onClick={handleDeleteSection}
+                >
+                  Delete Section
+                </Button>
+                <Button
+                  className="bg-blue-600 hover:bg-blue-700"
+                  onClick={() => setIsAddItemModalOpen(true)}
+                >
+                  Add Item
+                </Button>
+              </>
+            )}
           </div>
         </div>
 
@@ -229,47 +235,47 @@ const deleteItem = (itemId: string) => {
               <CardContent>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => updateQuantity(item.itemId, -1)}
-                        className="h-8 w-8 text-slate-400 hover:text-white hover:bg-slate-700"
-                      >
-                        <Minus className="h-4 w-4" />
-                      </Button>
-                      <Input
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) => handleQuantityChange(item.itemId, e.target.value)}
-                        className="w-16 text-center bg-slate-700 border-slate-600 text-white"
-                      />
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => updateQuantity(item.itemId, 1)}
-                        className="h-8 w-8 text-green-400 hover:text-green-300 hover:bg-slate-700"
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </>
+                    {role !== "viewer" && (
+                      <>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => updateQuantity(item.itemId, -1)}
+                          className="h-8 w-8 text-slate-400 hover:text-white hover:bg-slate-700"
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <Input
+                          type="number"
+                          value={item.quantity}
+                          onChange={(e) => handleQuantityChange(item.itemId, e.target.value)}
+                          className="w-16 text-center bg-slate-700 border-slate-600 text-white"
+                        />
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => updateQuantity(item.itemId, 1)}
+                          className="h-8 w-8 text-green-400 hover:text-green-300 hover:bg-slate-700"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </>
+                    )}
+                    {role === "viewer" && (
+                      <p className="text-slate-400 text-sm">Read-only view</p>
+                    )}
                   </div>
                   <div className="flex items-center gap-2">
-                    {/* <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 text-slate-400 hover:text-white hover:bg-slate-700"
-                    >
-                      <Info className="h-4 w-4" />
-                    </Button> */}
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => deleteItem(item.itemId)}
-                      className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-slate-700"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    {role !== "viewer" && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => deleteItem(item.itemId)}
+                        className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-slate-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
                   </div>
                 </div>
               </CardContent>

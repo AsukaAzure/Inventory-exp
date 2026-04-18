@@ -15,9 +15,9 @@ export function AddEmployeeModal({ isOpen, onClose }: AddEmployeeModalProps) {
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [role, setRole] = useState("user")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
-  const [isAdmin, setIsAdmin] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,7 +32,7 @@ export function AddEmployeeModal({ isOpen, onClose }: AddEmployeeModalProps) {
           username,
           email,
           password,
-          role: isAdmin ? "admin" : "user"
+          role
         })
       })
 
@@ -55,6 +55,7 @@ export function AddEmployeeModal({ isOpen, onClose }: AddEmployeeModalProps) {
     setUsername("")
     setEmail("")
     setPassword("")
+    setRole("user")
     setError("")
     onClose()
   }
@@ -63,7 +64,7 @@ export function AddEmployeeModal({ isOpen, onClose }: AddEmployeeModalProps) {
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-slate-800 border-slate-700 text-white max-w-md mx-4 sm:mx-auto">
         <DialogHeader>
-          <DialogTitle className="text-lg sm:text-xl font-semibold">Add New Admin</DialogTitle>
+          <DialogTitle className="text-lg sm:text-xl font-semibold">Add New Employee</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -105,15 +106,18 @@ export function AddEmployeeModal({ isOpen, onClose }: AddEmployeeModalProps) {
             />
           </div>
 
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="isAdmin"
-              checked={isAdmin}
-              onChange={(e) => setIsAdmin(e.target.checked)}
-              className="accent-slate-700"
-            />
-            <Label htmlFor="isAdmin" className="text-slate-300 text-sm">Make Admin</Label>
+          <div className="space-y-2">
+            <Label htmlFor="role" className="text-slate-300 text-sm">Role</Label>
+            <select
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full px-3 py-2 bg-slate-700 border border-slate-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+            >
+              <option value="viewer">Viewer (Read-only)</option>
+              <option value="user">User (Can edit items)</option>
+              <option value="admin">Admin (Full access)</option>
+            </select>
           </div>
 
           {error && <div className="text-red-400 text-sm">{error}</div>}

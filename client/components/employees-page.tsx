@@ -78,7 +78,7 @@ export function EmployeesPage() {
           <SidebarTrigger className="text-white hover:bg-slate-700" />
           <h1 className="text-xl sm:text-3xl font-bold text-white">Employee Management</h1>
         </div>
-        {role !== "user" && (
+        {role === "admin" && (
           <Button onClick={() => setIsAddModalOpen(true)} className="bg-blue-600 hover:bg-blue-700">
             <UserPlus className="h-4 w-4 sm:mr-2" />
             <span className="hidden sm:inline">Add Employee</span>
@@ -99,7 +99,7 @@ export function EmployeesPage() {
               <CardContent>
                 <div className="flex items-center justify-between">
                   <span className="text-slate-400 text-xs sm:text-sm">Role: {employee.role}</span>
-                  {role !== "user" && (
+                  {role === "admin" && (
                     <Button
                       variant="ghost"
                       size="icon"
@@ -116,7 +116,7 @@ export function EmployeesPage() {
         </div>
       )}
 
-      {role !== "user" && (
+      {role === "admin" && (
         <AddEmployeeModal
           isOpen={isAddModalOpen}
           onClose={() => setIsAddModalOpen(false)}
