@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -168,9 +169,27 @@ export default function LoginPage() {
                   {showForgot ? "Close" : "Forgot password?"}
                 </button>
                 <p>
-                  email: <span className="cursor-pointer" onClick={()=>navigator.clipboard.writeText("user@gmail.com")}>user@gmail.com</span>
+                  email:{" "}
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => {
+                      navigator.clipboard.writeText("user@gmail.com");
+                      toast.success("Copied!");
+                    }}
+                  >
+                    user@gmail.com
+                  </span>
                   <br />
-                  password: <span className="cursor-pointer" onClick={() => navigator.clipboard.writeText("user123")}>user123</span>
+                  password:{" "}
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => {
+                      navigator.clipboard.writeText("user123");
+                      toast.success("Copied!");
+                    }}
+                  >
+                    user123
+                  </span>
                 </p>
               </div>
             </div>
