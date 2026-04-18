@@ -28,11 +28,14 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const res = await fetch("https://inventory-exp.onrender.com/api/auth/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        "https://inventory-exp.onrender.com/api/auth/signin",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        },
+      );
 
       if (!res.ok) {
         const data = await res.json();
@@ -50,7 +53,7 @@ export default function LoginPage() {
       router.push("/");
     } catch (err: unknown) {
       console.error(err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -72,15 +75,19 @@ export default function LoginPage() {
 
     setForgotLoading(true);
     try {
-      const res = await fetch("https://inventory-exp.onrender.com/api/auth/request-password-change", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: forgotEmail.trim(), newPassword }),
-      });
+      const res = await fetch(
+        "https://inventory-exp.onrender.com/api/auth/request-password-change",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: forgotEmail.trim(), newPassword }),
+        },
+      );
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to submit password request");
+      if (!res.ok)
+        throw new Error(data.message || "Failed to submit password request");
       setForgotSuccess(
-        "Password change request submitted. An admin will review and approve it."
+        "Password change request submitted. An admin will review and approve it.",
       );
       setShowForgot(false);
       setForgotEmail("");
@@ -88,7 +95,9 @@ export default function LoginPage() {
       setConfirmPassword("");
     } catch (err: unknown) {
       console.error(err);
-      setForgotError(err instanceof Error ? err.message : "Something went wrong");
+      setForgotError(
+        err instanceof Error ? err.message : "Something went wrong",
+      );
     } finally {
       setForgotLoading(false);
     }
@@ -154,10 +163,15 @@ export default function LoginPage() {
                     setShowForgot(!showForgot);
                     setForgotError("");
                   }}
-                  className="underline hover:text-white"
+                  className="underline hover:text-white pb-1"
                 >
                   {showForgot ? "Close" : "Forgot password?"}
                 </button>
+                <p>
+                  email: <span className="cursor-pointer" onClick={()=>navigator.clipboard.writeText("user@gmail.com")}>user@gmail.com</span>
+                  <br />
+                  password: <span className="cursor-pointer" onClick={() => navigator.clipboard.writeText("user123")}>user123</span>
+                </p>
               </div>
             </div>
 
