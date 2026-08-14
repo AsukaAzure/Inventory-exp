@@ -31,6 +31,15 @@ app.get('/', (req, res) => {
   res.json({ message: 'Inventory Management System API' });
 });
 
+// Health check endpoint for uptime monitoring (cron-job.org, UptimeRobot, etc.)
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    uptime: process.uptime(),
+    timestamp: Date.now(),
+  });
+});
+
 
 
 
